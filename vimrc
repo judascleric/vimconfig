@@ -118,7 +118,11 @@ nnoremap ,od :tabe %:p:h<CR>
 nmap ,t :tabe %:p:h/
 nmap ,1 :tabm 0<CR>
 nmap ,m :tabm 
-vmap ,s y:vimgrep /<C-r>"/gj %:p:h/**
+"prep a recursive search from the highlighted word in vmode, you can then
+" tack on a file extension filter and open the quicklist
+vmap ,g y:vimgrep /<C-r>"/gj %:p:h/**
+"do a recursive search for the highlighted word in vmode, open quicklist
+vmap ,s y:vimgrep /<C-r>"/gj %:p:h/**<CR>:cw<CR>
 nmap ,c :clo<CR>
 nmap ,pe :!p4 edit %<CR>
 nmap ,pa :!p4 add %<CR>
