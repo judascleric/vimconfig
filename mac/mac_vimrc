@@ -1,0 +1,7 @@
+fun! MySys()
+	return "macosx"
+endfun
+
+"make sure to run vim_local after $VIMRUNTIME so that we can override ftplugin/
+set runtimepath=$VIMRUNTIME,~/vim_local
+source ~/vim_local/vimrc
