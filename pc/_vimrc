@@ -1,0 +1,7 @@
+"copy to %userprofile%/_vimrc
+fun! MySys()
+	return "windows"
+endfun
+
+set runtimepath=$vimruntime,$home/vim_local
+source ~/vim_local/vimrc

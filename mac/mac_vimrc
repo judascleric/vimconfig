@@ -1,3 +1,4 @@
+"copy to ~/.vimrc
 fun! MySys()
 	return "macosx"
 endfun

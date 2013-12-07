@@ -7,7 +7,12 @@
 "]s - go to next spelling issue
 "z= - spelling suggestions
 ":j<return> - join lines in vmode(using command mode) good for >=1 line
+"vimgrep /{search}/gj %:p:h/**/*.cpp - search for *.cpp files recursively in the current directory
+"cw - open quicklist (after vimgrep)
+"Ctrl-w gf  - jump to a file under the cursor in quicklist (or any file under the cursor)
 "Ctrl-] - jump to a tag under the cursor, useful in help docs in terminal
+"=% - reformat block
+"{Visual Select}= - reformat selection
 
 "vim only
 set nocompatible
@@ -76,6 +81,10 @@ set statusline+=\ %P    "percent through file
 set laststatus=2
 
 "Key remappings
+if MySys() == "windows"
+    "get windows keybindings for copy, paste, save
+    source $vimruntime/mswin.vim
+endif
 inoremap <Esc> <Esc>`^
 vnoremap <Esc> <Esc>gV
 "visual search - use // to find the currently highlighted text
@@ -107,16 +116,24 @@ vmap gc :j<return>^wi<space><space><esc>Vgw<S-x><S-x>
 nmap ,f :NERDTreeToggle<CR>
 nnoremap ,od :tabe %:p:h<CR>
 nmap ,t :tabe %:p:h/
+nmap ,1 :tabm 0<CR>
+nmap ,m :tabm 
+vmap ,s y:vimgrep /<C-r>"/gj %:p:h/**
+nmap ,c :clo<CR>
+nmap ,pe :!p4 edit %<CR>
+nmap ,pa :!p4 add %<CR>
+nmap ,pr :!p4 revert %<CR>
 
 "tab preferences
 "wrap width
 set textwidth=80
-set softtabstop=2
-set shiftwidth=2
-set tabstop=2
+set softtabstop=4
+set shiftwidth=4
+set tabstop=4
+"set expandtab "convert tabs to spaces
 set noexpandtab "do not convert tabs to spaces
-set autoindent "auto indent
-set smartindent "smart indent
+set autoindent "indent at the start of new blocks
+set smartindent "add extra indent for statements that continue on the same line
 set wrap "wrap lines - is there a way to add a visual character in the margin when a wrap occurs?
 
 "general editor setting
