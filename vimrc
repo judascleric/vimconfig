@@ -80,6 +80,27 @@ set statusline+=%l:%c[%L]   "cursor line/total lines
 set statusline+=\ %P    "percent through file
 set laststatus=2
 
+"custom functions - should these go in a separate .vim file?
+"SearchInFiles is a smart vimgrep invocation. Intended use is to select text in
+" visual mode and search recursively from the current file directory in all files
+" with the same file extension
+"Arguments:
+" firstFile - path to start search from. typically expand('%:p')
+" searchText - the regular expression to search for, does not smartly escape
+"  characters from a visual mode select
+" Returns:
+"  nothing, but the quick list will be populated with the search results
+fun! SearchInFiles(firstFile, searchText)
+	let parentDir = fnamemodify(a:firstFile, ':p:h')
+	let fileFilter = parentDir . '/**'
+	let fileExtension = fnamemodify(a:firstFile, ':e')
+	if !empty(fileExtension)
+		let fileFilter .= '*.' . fileExtension 
+	endif
+	let vimgrepCmd = ':vimgrep /' . a:searchText . '/gj ' . fileFilter
+	execute vimgrepCmd
+endfun
+
 "Key remappings
 if MySys() == "windows"
     "get windows keybindings for copy, paste, save
@@ -107,23 +128,32 @@ nmap <silent> S <NOP>
 nmap ss o{<return>}<esc>O
 nmap sS O{<return>}<esc>O 
 nmap s; o{<return>};<esc>O
-nmap sp o{<esc>po}<esc>
-nmap sP O{<esc>po}<esc>
+nmap sp o{<return>}<esc>Pk=%%
+nmap sP O{<return>}<esc>Pk=%%
 "reformat c-style "//" comments starting on the first line. Doesn't work for text
 ":j<return> = join visual selection, ^wi<space><space><esc> = indent 2 lines
 "Vgw = select the line and reformat, <S-x><S-x> = delete the trailing space
 vmap gc :j<return>^wi<space><space><esc>Vgw<S-x><S-x>
+"toggle nerdtree file browser
 nmap ,f :NERDTreeToggle<CR>
+"open file browser in the parent directory of the currently opened file
 nnoremap ,od :tabe %:p:h<CR>
+"open file in directory of the currently opened file [partial commnand]
 nmap ,t :tabe %:p:h/
+"move current tab to the first tab
 nmap ,1 :tabm 0<CR>
+"move current tab to {n} position [partial command]
 nmap ,m :tabm 
 "prep a recursive search from the highlighted word in vmode, you can then
 " tack on a file extension filter and open the quicklist
 vmap ,g y:vimgrep /<C-r>"/gj %:p:h/**
 "do a recursive search for the highlighted word in vmode, open quicklist
-vmap ,s y:vimgrep /<C-r>"/gj %:p:h/**<CR>:cw<CR>
+vmap ,s y:call SearchInFiles(expand('%:p'),expand('<C-r>"'))<CR>:cw<CR>
+"jump to file under the cursor in a new tab, typically done from quicklist
+nmap ,j <C-w>gf
+"close current tab/window
 nmap ,c :clo<CR>
+"perforce commands
 nmap ,pe :!p4 edit %<CR>
 nmap ,pa :!p4 add %<CR>
 nmap ,pr :!p4 revert %<CR>
