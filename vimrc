@@ -157,6 +157,7 @@ nmap ,c :clo<CR>
 nmap ,pe :!p4 edit %<CR>
 nmap ,pa :!p4 add %<CR>
 nmap ,pr :!p4 revert %<CR>
+nmap ,l :set list!<CR>
 
 "tab preferences
 "wrap width
@@ -164,8 +165,8 @@ set textwidth=80
 set softtabstop=4
 set shiftwidth=4
 set tabstop=4
-"set expandtab "convert tabs to spaces
-set noexpandtab "do not convert tabs to spaces
+set expandtab "convert tabs to spaces
+"set noexpandtab "do not convert tabs to spaces
 set autoindent "indent at the start of new blocks
 set smartindent "add extra indent for statements that continue on the same line
 set wrap "wrap lines - is there a way to add a visual character in the margin when a wrap occurs?
