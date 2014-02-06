@@ -149,6 +149,8 @@ nmap ,m :tabm
 vmap ,g y:vimgrep /<C-r>"/gj %:p:h/**
 "do a recursive search for the highlighted word in vmode, open quicklist
 vmap ,s y:call SearchInFiles(expand('%:p'),expand('<C-r>"'))<CR>:cw<CR>
+"do a search for the highlighted word in current file, open quicklist
+vmap ,f y:vimgrep /<C-r>"/gj %:p<CR>:cw<CR>
 "jump to file under the cursor in a new tab, typically done from quicklist
 nmap ,j <C-w>gf
 "close current tab/window
