@@ -7,8 +7,12 @@
 "]s - go to next spelling issue
 "z= - spelling suggestions
 ":j<return> - join lines in vmode(using command mode) good for >=1 line
-"vimgrep /{search}/gj %:p:h/**/*.cpp - search for *.cpp files recursively in the current directory
-"cw - open quicklist (after vimgrep)
+":vimgrep /{search}/gj %:p:h/**/*.cpp - search for *.cpp files recursively in the current directory
+":cw - open quicklist (after vimgrep) - can append to vimgrep command with " | cw"
+":cex[] - clear the quickfix window
+":cn - next match in the quickfix window
+":cp - previous match in the quickfix window
+":ccl - close the quickfix window
 "Ctrl-w gf  - jump to a file under the cursor in quicklist (or any file under the cursor)
 "Ctrl-] - jump to a tag under the cursor, useful in help docs in terminal
 "=% - reformat block
@@ -106,6 +110,7 @@ if MySys() == "windows"
     "get windows keybindings for copy, paste, save
     source $vimruntime/mswin.vim
 endif
+let mapleader = ","
 inoremap <Esc> <Esc>`^
 vnoremap <Esc> <Esc>gV
 "visual search - use // to find the currently highlighted text
@@ -135,31 +140,38 @@ nmap sP O{<return>}<esc>Pk=%%
 "Vgw = select the line and reformat, <S-x><S-x> = delete the trailing space
 vmap gc :j<return>^wi<space><space><esc>Vgw<S-x><S-x>
 "toggle nerdtree file browser
-nmap ,f :NERDTreeToggle<CR>
+nmap <Leader>f :NERDTreeToggle<CR>
 "open file browser in the parent directory of the currently opened file
-nnoremap ,od :tabe %:p:h<CR>
+nnoremap <Leader>od :tabe %:p:h<CR>
 "open file in directory of the currently opened file [partial commnand]
-nmap ,t :tabe %:p:h/
+nmap <Leader>t :tabe %:p:h/
 "move current tab to the first tab
-nmap ,1 :tabm 0<CR>
+nmap <Leader>1 :tabm 0<CR>
 "move current tab to {n} position [partial command]
-nmap ,m :tabm 
+nmap <Leader>m :tabm 
 "prep a recursive search from the highlighted word in vmode, you can then
 " tack on a file extension filter and open the quicklist
-vmap ,g y:vimgrep /<C-r>"/gj %:p:h/**
+vmap <Leader>g y:vimgrep /<C-r>"/gj %:p:h/**
 "do a recursive search for the highlighted word in vmode, open quicklist
-vmap ,s y:call SearchInFiles(expand('%:p'),expand('<C-r>"'))<CR>:cw<CR>
+vmap <Leader>s y:call SearchInFiles(expand('%:p'),expand('<C-r>"'))<CR>:cw<CR>
 "do a search for the highlighted word in current file, open quicklist
-vmap ,f y:vimgrep /<C-r>"/gj %:p<CR>:cw<CR>
+vmap <Leader>f y:vimgrep /<C-r>"/gj %:p<CR>:cw<CR>
+"next search result from quicklist
+nmap <F3> :cn<CR>
+"previous search result from quicklist
+nmap <S-F3> :cp<CR>
+"close the quickfix window
+nmap <Leader>q :ccl<CR>
 "jump to file under the cursor in a new tab, typically done from quicklist
-nmap ,j <C-w>gf
+nmap <Leader>j <C-w>gf
 "close current tab/window
-nmap ,c :clo<CR>
+nmap <Leader>c :clo<CR>
 "perforce commands
-nmap ,pe :!p4 edit %<CR>
-nmap ,pa :!p4 add %<CR>
-nmap ,pr :!p4 revert %<CR>
-nmap ,l :set list!<CR>
+nmap <Leader>pe :!p4 edit %<CR>
+nmap <Leader>pa :!p4 add %<CR>
+nmap <Leader>pr :!p4 revert %<CR>
+"toggle visible whitespace
+nmap <Leader>l :set list!<CR>
 
 "tab preferences
 "wrap width
@@ -232,16 +244,16 @@ endif
 
 "confiure NERDCommenter
 let NERDCreateDefaultMappings=0
-map ,cc      <plug>NERDCommenterComment 
-map ,c<space> <plug>NERDCommenterToggle 
-map ,cm      <plug>NERDCommenterMinimal 
-map ,cs      <plug>NERDCommenterSexy 
-map ,ci      <plug>NERDCommenterInvert 
-map ,cy      <plug>NERDCommenterYank 
-map ,cl      <plug>NERDCommenterAlignLeft 
-map ,cb      <plug>NERDCommenterAlignBoth 
-map ,cn      <plug>NERDCommenterNest 
-map ,cu      <plug>NERDCommenterUncomment 
-map ,c$      <plug>NERDCommenterToEOL 
-map ,cA      <plug>NERDCommenterAppend 
+map <Leader>cc      <plug>NERDCommenterComment 
+map <Leader>c<space> <plug>NERDCommenterToggle 
+map <Leader>cm      <plug>NERDCommenterMinimal 
+map <Leader>cs      <plug>NERDCommenterSexy 
+map <Leader>ci      <plug>NERDCommenterInvert 
+map <Leader>cy      <plug>NERDCommenterYank 
+map <Leader>cl      <plug>NERDCommenterAlignLeft 
+map <Leader>cb      <plug>NERDCommenterAlignBoth 
+map <Leader>cn      <plug>NERDCommenterNest 
+map <Leader>cu      <plug>NERDCommenterUncomment 
+map <Leader>c$      <plug>NERDCommenterToEOL 
+map <Leader>cA      <plug>NERDCommenterAppend 
 
