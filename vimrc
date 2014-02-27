@@ -151,7 +151,7 @@ nmap <Leader>1 :tabm 0<CR>
 nmap <Leader>m :tabm 
 "prep a recursive search from the highlighted word in vmode, you can then
 " tack on a file extension filter and open the quicklist
-vmap <Leader>g y:vimgrep /<C-r>"/gj %:p:h/**
+vmap <Leader>g y:vimgrep /<C-r>"/gj %:p:h/** \| cw
 "do a recursive search for the highlighted word in vmode, open quicklist
 vmap <Leader>s y:call SearchInFiles(expand('%:p'),expand('<C-r>"'))<CR>:cw<CR>
 "do a search for the highlighted word in current file, open quicklist
@@ -181,9 +181,12 @@ set shiftwidth=4
 set tabstop=4
 set expandtab "convert tabs to spaces
 "set noexpandtab "do not convert tabs to spaces
-set autoindent "indent at the start of new blocks
-set smartindent "add extra indent for statements that continue on the same line
+set nosmartindent "smartindent lacks configuration options to control special indentation and preprocessor and comment configuration
+set cindent "add extra indent for statements that continue on the same line
+set cinkeys-=0# "do not remove indentation for # on preprocessor commands and comments
+set indentkeys-=0# "do not remove indentation for # on preprocessor commands and comments
 set wrap "wrap lines - is there a way to add a visual character in the margin when a wrap occurs?
+set autoindent "indent at the start of new blocks
 
 "general editor setting
 "set term=builtin_ansi "this should fix the arrow keys in terminal vim
