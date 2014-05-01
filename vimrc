@@ -52,6 +52,11 @@ endtry
 "program or syncing to source control
 autocmd! CursorHold * checktime
 
+"file encoding
+"set utf-8 as default encoding
+set encoding=utf-8
+set fileencodings=ucs-bom,uft-8ucs-2le,latin1
+
 "set autoformatting options
 set formatoptions=
 "do not automatically wrap text
