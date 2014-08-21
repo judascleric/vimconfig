@@ -110,6 +110,39 @@ fun! SearchInFiles(firstFile, searchText)
 	execute vimgrepCmd
 endfun
 
+fun! SetP4Client()
+    let hostname = split(system("hostname"))[0]
+    let p4clientsOut = system("p4 clients -u %P4USER%")
+    let p4clientsOutLines = split(p4clientsOut, "\n")
+    let p4clientList = []
+    let idx = 1
+    for p4clientsOutLine in p4clientsOutLines
+        " only add clients usable on this host
+        let p4client = split(p4clientsOutLine)[1]
+        let p4clientOut = system("p4 client -o " . p4client)
+        let p4clientOutLines = split(p4clientOut, "\n")
+        for p4clientOutLine in p4clientOutLines
+            let hostLine = matchstr(p4clientOutLine, "^Host:.*")
+            if !empty(hostLine)
+                let clientHost = split(hostLine)[1]
+                " do we need to save ignorecase state?
+                set ignorecase
+                if clientHost == hostname
+                    call add(p4clientList, p4client)
+                    let idx = idx + 1
+                endif
+            endif
+        endfor
+    endfor
+    if len(p4clientList) > 0
+        let choices = "&" . join(p4clientList, "\n&")
+        let choice = confirm("Choose a P4 Client", choices)
+        let $P4CLIENT = p4clientList[choice-1]
+    else
+        echom "No Clients Found"
+    endif
+endfun
+
 "Key remappings
 if MySys() == "windows"
     "get windows keybindings for copy, paste, save
