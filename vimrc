@@ -208,6 +208,7 @@ nmap <Leader>c :clo<CR>
 nmap <Leader>pe :!p4 edit %<CR>
 nmap <Leader>pa :!p4 add %<CR>
 nmap <Leader>pr :!p4 revert %<CR>
+nmap <Leader>pc :call SetP4Client()<CR>
 "toggle visible whitespace
 nmap <Leader>l :set list!<CR>
 
